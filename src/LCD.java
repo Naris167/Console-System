@@ -4,7 +4,6 @@ public class LCD {
 
     final static char escCode = 0x1B;
 
-
     public static int WIDTH = 80;
     public static int HEIGHT = 25;
     public static int LEFT = 1;
@@ -24,17 +23,6 @@ public class LCD {
 
     public static void GotoXY (int x, int y) {
         System.out.printf("%c[%d;%df", escCode, x, y);
-    }
-
-    public static void clearScreen() {
-        hideCursor ();
-        for (int i = 1; i <= HEIGHT; i++) {
-            for (int j = 1; j <= WIDTH; j++) {
-                GotoXY(i,j);
-                System.out.print(" ");
-            }
-            System.out.println("");
-        }
     }
 
     public static void printHorizontalBorder(int alignment) {
@@ -111,6 +99,124 @@ public class LCD {
         }
     }
 
+    public static void printMessageProgressAnimation(String message, int alignment, int speed, int duration, int line, int position) {
+        char[] animationChars = new char[]{'|', '/', '-', '\\'};
+
+        if (alignment == 1){ //left alignment
+            for (int i = 0; i <= duration; i++) {
+                //Start to print animation with message
+                GotoXY(line,position);
+                System.out.print("│ [ " + animationChars[i % 4] + " ] " + message);
+
+                //Calculate space left and print space
+                int spaceLeft = WIDTH - 10 - message.length();
+                for (int j = 1; j <= spaceLeft; j++) {
+                    System.out.print(" ");
+                }
+                System.out.println(" │");
+
+                //Slow time to make animation looks good
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (alignment == 2){ //center alignment
+            int extra = 6;
+            int halfScreen = (WIDTH - 4) / 2;
+            int halfMessageLength = (message.length() + extra) / 2;
+            int compensate = 0; // this value used to compensate the loss and over in printing space when there are difference in odd and even of width and message.
+            if (WIDTH % 2 == 1 && (message.length() + extra) % 2 == 0){
+                compensate = 1;
+            } else if (WIDTH % 2 == 0 && (message.length() + extra) % 2 == 1){
+                compensate = -1;
+            }
+
+
+            for (int i = 0; i <= duration; i++) {
+                //Start to print animation with message
+                GotoXY(line,position);
+
+                //Calculate space left and print space
+                System.out.print("│ ");
+                if ((WIDTH % 2 == 1 && (message.length() + extra) % 2 == 0) || (WIDTH % 2 == 0 && (message.length() + extra) % 2 == 1)) { //When width and message are difference in odd and even
+                    for (int j = 1; j <= (halfScreen - halfMessageLength); j++) {
+                        System.out.print(" ");
+                    }
+                    //System.out.print(message);
+                    System.out.print("[ " + animationChars[i % 4] + " ] " + message);
+                    for (int j = 1; j <= (halfScreen - halfMessageLength) + compensate; j++) {
+                        System.out.print(" ");
+                    }
+                } else if ((WIDTH % 2 == 1 && (message.length() + extra) % 2 == 1) || (WIDTH % 2 == 0 && (message.length() + extra) % 2 == 0)){ //When both width and message is odd or even
+                    for (int j = 1; j <= (halfScreen - halfMessageLength); j++) {
+                        System.out.print(" ");
+                    }
+                    //System.out.print(message);
+                    System.out.print("[ " + animationChars[i % 4] + " ] " + message);
+                    for (int j = 1; j <= (halfScreen - halfMessageLength); j++) {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.println(" │");
+
+                //Slow time to make animation looks good
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (alignment == 3){ //right alignment
+            for (int i = 0; i <= duration; i++) {
+                //Start to print blank space
+                GotoXY(line,position);
+                System.out.print("│ ");
+                int spaceLeft = WIDTH - 10 - message.length();
+                for (int j = 1; j <= spaceLeft; j++) {
+                    System.out.print(" ");
+                }
+
+                //Followed by animation and message
+                System.out.print("[ " + animationChars[i % 4] + " ] " + message + " │");
+
+                //Slow time to make animation looks good
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.print("Invalid text alignment");
+        }
+    }
+
+    public static void progressAnimation (String message, int speed, int duration){
+        char[] animationChars = new char[]{'|', '/', '-', '\\'};
+
+        for (int i = 0; i <= duration; i++) {
+            System.out.print("[ " + animationChars[i % 4] + " ]" + message + "\r");
+            try {
+                Thread.sleep(speed);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void clearScreen() {
+        hideCursor ();
+        for (int i = 1; i <= HEIGHT; i++) {
+            for (int j = 1; j <= WIDTH; j++) {
+                GotoXY(i,j);
+                System.out.print(" ");
+            }
+            System.out.println("");
+        }
+    }
+
     public static void insertBlankLine() {
         System.out.print("│");
         for (int i = 1; i <= (WIDTH - 2); i++) {
@@ -131,6 +237,12 @@ public class LCD {
         printMessage("1. Login", LEFT);
         printMessage("2. Restart", LEFT);
         printMessage("3. Shutdown", LEFT);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
     }
 
@@ -142,7 +254,16 @@ public class LCD {
         printMessage("Press 0 to go back", CENTER);
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
-        printMessage("Enter Username: ", LEFT);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
     }
 
@@ -157,6 +278,13 @@ public class LCD {
         printMessage("2. Enable/Disable IP Camera", LEFT);
         printMessage("3. Turn anti-theft system on/off.", LEFT);
         printMessage("4. Exit", LEFT);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
     }
 
@@ -168,6 +296,16 @@ public class LCD {
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
         printMessage("Are you sure that you want to restart the system? (Y/N)", LEFT);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
     }
 
@@ -179,6 +317,16 @@ public class LCD {
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
         printMessage("Are you sure that you want to shutdown the system? (Y/N)", LEFT);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
     }
 
@@ -189,8 +337,20 @@ public class LCD {
         printMessage("Restarting ....", CENTER);
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
-        printMessage("Please wait while the system is preparing for a restart.", LEFT);
+        insertBlankLine();
+        printMessage("[ | ] Please wait while the system is preparing for a restart", CENTER);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
+        printMessageProgressAnimation("Please wait while the system is preparing for a restart", CENTER, 50,80, 6, 1);
+
     }
 
     public static void showShutdown() {
@@ -200,7 +360,18 @@ public class LCD {
         printMessage("Shutting down ....", CENTER);
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
-        printMessage("Please wait while the system is preparing for a shutdown.", LEFT);
+        insertBlankLine();
+        printMessage("[ | ] Please wait while the system is preparing for a shutdown", CENTER);
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
+        insertBlankLine();
         printHorizontalBorder(BOTTOM);
+        printMessageProgressAnimation("Please wait while the system is preparing for a shutdown", CENTER, 50,60, 6, 1);
     }
 }

@@ -4,18 +4,8 @@ import java.io.*;
 import java.lang.Thread;
 
 public class MyIoTProject {
-    //public static Scanner console = new Scanner(System.in);
-
     public static void main(String[] args){
         mainMenuLoop();
-//        LCD.clearScreen();
-//        LCD.showLoginMenu();
-//        LCD.showSystemMenu();
-//        LCD.confirmRestart();
-//        LCD.confirmShutdown();
-//        LCD.showRestart();
-//        LCD.showShutdown();
-
     }
 
     public static void mainMenuLoop (){
@@ -24,22 +14,24 @@ public class MyIoTProject {
 
         while (run){
             LCD.showMainMenu();
+            LCD.GotoXY(11,3);
             System.out.print("Your choice: ");
             char command = console.next().charAt(0);
+            LCD.GotoXY(13,3);
 
             switch (command) {
                 case '1' :
-                    System.out.println("1 selected");
+                    System.out.println("Entering login menu");
                     loginMenuLoop();
                     run = false;
                     break;
                 case '2' :
-                    System.out.println("2 selected");
+                    System.out.println("Entering restart menu");
                     confirmRestartLoop();
                     run = false;
                     break;
                 case '3' :
-                    System.out.println("3 selected");
+                    System.out.println("Entering shut down menu");
                     confirmShutdownLoop();
                     run = false;
                     break;
@@ -55,7 +47,6 @@ public class MyIoTProject {
                     }
             }
         }
-        run = false;
     }
 
     public static void loginMenuLoop (){
@@ -64,8 +55,10 @@ public class MyIoTProject {
 
         while (run){
             LCD.showLoginMenu();
-            System.out.print("Your answer: ");
+            LCD.GotoXY(6,3);
+            System.out.print("Enter Username: ");
             String text = console.nextLine();
+            LCD.GotoXY(8,3);
 
             switch (text) {
                 case "Naris" :
@@ -90,7 +83,6 @@ public class MyIoTProject {
                     }
             }
         }
-        run = false;
     }
 
     public static void systemMenuLoop (){
@@ -100,27 +92,70 @@ public class MyIoTProject {
         while (run){
             Scanner console = new Scanner(System.in);
             LCD.showSystemMenu();
+            LCD.GotoXY(10,3);
             System.out.print("Your choice: ");
-            char command = console.next().charAt(0);
+            String commandS = console.nextLine();
+            char command = ' ';
+
+            if (commandS.length() == 1){
+                command = commandS.charAt(0);
+            } else if (commandS.length() > 1){
+                LCD.GotoXY(11,3);
+                System.out.println("Invalid choice please try again.");
+                try
+                {
+                    Thread.sleep(2000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                systemMenuLoop();
+            }
 
             switch (command) {
                 case '1' :
                     boolean loopText1 = true;
                     while (loopText1) {
                         Scanner ans1 = new Scanner(System.in);
+                        LCD.GotoXY(11,3);
                         System.out.print("Input the degree of the AC temperature: ");
+
                         try
                         {
                             tempAC = ans1.nextInt();
                         }
                         catch (Exception e)
                         {
-                            System.out.println("\nPlease only input the integer");
+                            LCD.GotoXY(13,3);
+                            System.out.println("Please only input the integer");
+                            try
+                            {
+                                Thread.sleep(3000);
+                            }
+                            catch (InterruptedException t)
+                            {
+                                e.printStackTrace();
+                            }
+                            systemMenuLoop();
                         }
-                        System.out.print("\nCurrent AC temperature is: " + tempAC);
+
+                        LCD.GotoXY(13,3);
+                        if (tempAC <= 30 && tempAC >= 15){
+                            System.out.print("Current AC temperature is: " + tempAC);
+                        } else if (tempAC == 0){
+                            systemMenuLoop();
+                        } else if (tempAC > 30 || tempAC < 15){
+                            System.out.print("AC only support the temperature between 15 - 30 degrees Celsius");
+                            LCD.GotoXY(14,3);
+                            System.out.println("Please try again with valid temperature");
+                        } else {
+                            System.out.println("Unknown error! Try again!");
+                        }
+
                         try
                         {
-                            Thread.sleep(2000);
+                            Thread.sleep(3000);
                         }
                         catch (InterruptedException e)
                         {
@@ -131,6 +166,7 @@ public class MyIoTProject {
                     break;
                 case '2' :
                     Scanner ans2 = new Scanner(System.in);
+                    LCD.GotoXY(11,3);
                     System.out.print("Please type 'Enable' or 'Disable': ");
                     boolean loopText2 = true;
 
@@ -138,7 +174,8 @@ public class MyIoTProject {
                         String text2 = ans2.next();
                         switch (text2.toLowerCase()) {
                             case "enable":
-                                System.out.print("\nSuccessfully enabled IP camera.");
+                                LCD.GotoXY(13,3);
+                                System.out.print("Successfully enabled IP camera.");
                                 try
                                 {
                                     Thread.sleep(2000);
@@ -150,7 +187,8 @@ public class MyIoTProject {
                                 loopText2 = false;
                                 break;
                             case "disable":
-                                System.out.print("\nSuccessfully disabled IP camera.");
+                                LCD.GotoXY(13,3);
+                                System.out.print("Successfully disabled IP camera.");
                                 try
                                 {
                                     Thread.sleep(2000);
@@ -166,6 +204,7 @@ public class MyIoTProject {
                                 loopText2 = false;
                                 break;
                             default:
+                                LCD.GotoXY(13,3);
                                 System.out.println("Invalid choice please try again.");
                                 try
                                 {
@@ -181,6 +220,7 @@ public class MyIoTProject {
                     break;
                 case '3' :
                     Scanner ans3 = new Scanner(System.in);
+                    LCD.GotoXY(11,3);
                     System.out.print("Please type 'On' or 'Off': ");
                     boolean loopText3 = true;
 
@@ -188,7 +228,8 @@ public class MyIoTProject {
                         String text3 = ans3.next();
                         switch (text3.toLowerCase()){
                             case "on" :
-                                System.out.print("\nSuccessfully turned on anti-theft system.");
+                                LCD.GotoXY(13,3);
+                                System.out.print("Successfully turned on anti-theft system.");
                                 try
                                 {
                                     Thread.sleep(2000);
@@ -200,7 +241,8 @@ public class MyIoTProject {
                                 loopText3 = false;
                                 break;
                             case "off" :
-                                System.out.print("\nSuccessfully turned off anti-theft system.");
+                                LCD.GotoXY(13,3);
+                                System.out.print("Successfully turned off anti-theft system.");
                                 try
                                 {
                                     Thread.sleep(2000);
@@ -216,6 +258,7 @@ public class MyIoTProject {
                                 loopText3 = false;
                                 break;
                             default:
+                                LCD.GotoXY(13,3);
                                 System.out.println("Invalid choice please try again.");
                                 try
                                 {
@@ -225,16 +268,23 @@ public class MyIoTProject {
                                 {
                                     e.printStackTrace();
                                 }
-                                System.out.println(" ");
+                                System.out.println(" "); //Just to wake a system to continue
                         }
                         systemMenuLoop();
                     }
                     break;
                 case '4' :
+                    LCD.GotoXY(11,3);
+                    System.out.println("Returning to the main menu");
+                    mainMenuLoop();
+                    break;
+                case '0' :
+                    LCD.GotoXY(11,3);
                     System.out.println("Returning to the main menu");
                     mainMenuLoop();
                     break;
                 default :
+                    LCD.GotoXY(11,3);
                     System.out.println("Invalid choice please try again.");
                     try
                     {
@@ -255,16 +305,22 @@ public class MyIoTProject {
         while (run){
             Scanner console = new Scanner(System.in);
             LCD.confirmRestart();
-            System.out.print("Your answer: ");
+            LCD.GotoXY(7,3);
+            System.out.print("Your choice: ");
             char command = console.next().charAt(0);
             command = toLowerCase(command);
 
             switch (command) {
                 case 'y' :
                     LCD.showRestart();
+                    mainMenuLoop();
+                    break;
+                case 'n' :
+                    LCD.GotoXY(9,3);
+                    System.out.println("Returning to main menu");
                     try
                     {
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                     }
                     catch (InterruptedException e)
                     {
@@ -272,12 +328,17 @@ public class MyIoTProject {
                     }
                     mainMenuLoop();
                     break;
-                case 'n' :
-                    System.out.println("Returning to main menu");
-                    mainMenuLoop();
-                    break;
                 default :
+                    LCD.GotoXY(9,3);
                     System.out.println("Invalid value please try again.");
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
             }
         }
         run = false;
@@ -289,29 +350,33 @@ public class MyIoTProject {
         while (run){
             Scanner console = new Scanner(System.in);
             LCD.confirmShutdown();
-            System.out.print("Your answer: ");
+            LCD.GotoXY(7,3);
+            System.out.print("Your choice: ");
             char command = console.next().charAt(0);
             command = toLowerCase(command);
 
             switch (command) {
                 case 'y' :
                     LCD.showShutdown();
+                    LCD.GotoXY(17,1);
+                    System.exit(0);
+                    break;
+                case 'n' :
+                    LCD.GotoXY(9,3);
+                    System.out.println("Returning to main menu");
+                    mainMenuLoop();
+                    break;
+                default :
+                    LCD.GotoXY(9,3);
+                    System.out.println("Invalid value please try again.");
                     try
                     {
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                     }
                     catch (InterruptedException e)
                     {
                         e.printStackTrace();
                     }
-                    System.exit(0);
-                    break;
-                case 'n' :
-                    System.out.println("Returning to main menu");
-                    mainMenuLoop();
-                    break;
-                default :
-                    System.out.println("Invalid value please try again.");
             }
         }
         run = false;
