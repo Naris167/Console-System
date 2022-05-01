@@ -1,4 +1,5 @@
 import java.util.Scanner;
+//Use if/else statements for the Calculator example to perform the operation requested by user
 public class W4T1_Calculator {
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);

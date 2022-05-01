@@ -1,4 +1,5 @@
 import java.util.Scanner;
+//Replace if/else statements in calculator example with a switch statement
 public class W4T3_Calculator {
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);

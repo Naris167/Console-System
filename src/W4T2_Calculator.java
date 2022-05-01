@@ -1,4 +1,5 @@
 import java.util.Scanner;
+//Add a test condition to calculator example that checks if requested operation is a supported operation
 public class W4T2_Calculator {
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);
