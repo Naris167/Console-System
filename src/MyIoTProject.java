@@ -1,5 +1,6 @@
 public class MyIoTProject {
     public static void main(String[] args){
+        //LCD.clearScreen();
         LCD.showMainMenu();
         LCD.showLoginMenu();
         LCD.showSystemMenu();
