@@ -1,4 +1,9 @@
+import java.util.Scanner;
+
 public class LCD {
+
+    final static char escCode = 0x1B;
+
 
     public static int WIDTH = 80;
     public static int HEIGHT = 25;
@@ -9,10 +14,23 @@ public class LCD {
     public static int MIDDLE = 2;
     public static int BOTTOM = 3;
 
-    public static void clearScreen() {
+    public static void hideCursor () {
+        System.out.printf("%c[?25l", escCode);
+    }
 
+    public static void showCursor () {
+        System.out.printf("%c[?25h", escCode);
+    }
+
+    public static void GotoXY (int x, int y) {
+        System.out.printf("%c[%d;%df", escCode, x, y);
+    }
+
+    public static void clearScreen() {
+        hideCursor ();
         for (int i = 1; i <= HEIGHT; i++) {
             for (int j = 1; j <= WIDTH; j++) {
+                GotoXY(i,j);
                 System.out.print(" ");
             }
             System.out.println("");
@@ -88,6 +106,8 @@ public class LCD {
                 System.out.print(" ");
             }
             System.out.println(message + " │");
+        } else {
+            System.out.print("Invalid text alignment");
         }
     }
 
@@ -100,7 +120,8 @@ public class LCD {
     }
 
     public static void showMainMenu() {
-        //clearScreen();
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Welcome to Stamford LCD Library Demo", CENTER);
         insertBlankLine();
@@ -114,15 +135,20 @@ public class LCD {
     }
 
     public static void showLoginMenu() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Login Menu. Press F1 for more information", CENTER);
+        printMessage("Press 0 to go back", CENTER);
         printHorizontalBorder(MIDDLE);
         insertBlankLine();
-        printMessage("Enter Username:", LEFT);
+        printMessage("Enter Username: ", LEFT);
         printHorizontalBorder(BOTTOM);
     }
 
     public static void showSystemMenu() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Select a Function (1-4)", CENTER);
         printHorizontalBorder(MIDDLE);
@@ -135,6 +161,8 @@ public class LCD {
     }
 
     public static void confirmRestart() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Restart Confirmation", CENTER);
         printHorizontalBorder(MIDDLE);
@@ -144,6 +172,8 @@ public class LCD {
     }
 
     public static void confirmShutdown() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Shutdown Confirmation", CENTER);
         printHorizontalBorder(MIDDLE);
@@ -153,6 +183,8 @@ public class LCD {
     }
 
     public static void showRestart() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Restarting ....", CENTER);
         printHorizontalBorder(MIDDLE);
@@ -162,6 +194,8 @@ public class LCD {
     }
 
     public static void showShutdown() {
+        clearScreen();
+        GotoXY(1,1);
         printHorizontalBorder(TOP);
         printMessage("Shutting down ....", CENTER);
         printHorizontalBorder(MIDDLE);
