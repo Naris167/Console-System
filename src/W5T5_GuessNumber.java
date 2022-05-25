@@ -5,10 +5,9 @@ public class W5T5_GuessNumber {
     public static void main(String[] args) {
         giveIntro();
         Scanner console = new Scanner(System.in);
-        // pick a random number from 0 to 99 inclusive
-        Random rand = new Random();
+        Random rand = new Random(); // pick a random number from 0 to 99 inclusive
         int number = rand.nextInt(100);
-        System.out.println("randomly generated number is = " + number);
+        //System.out.println("<DEBUG> randomly generated number is = " + number);
 
         // get first guess
         int guess = getGuess(console);
@@ -20,15 +19,11 @@ public class W5T5_GuessNumber {
             guess = getGuess(console);
             numGuesses++;
         }
-
         System.out.println("You got it right in " + numGuesses + " tries.");
     }
 
     public static void giveIntro() {
-        System.out.println("Try to guess my two-digit");
-        System.out.println("number, and I’ll tell you how");
-        System.out.println("many digits from your guess");
-        System.out.println("appear in my number.");
+        System.out.println("\nTry to guess my two-digit number, and I’ll tell you how many digits from your guess appear in my number.");
         System.out.println();
     }
 
@@ -50,7 +45,7 @@ public class W5T5_GuessNumber {
     public static int getGuess(Scanner console) {
         int guess = getInt(console, "Your guess? ");
         while (guess < 0 || guess >= 100) {
-            System.out.println("Out of range; try again.");
+            System.out.println("Out of range; try again with integer between 0 until 99.\n");
             guess = getInt(console, "Your guess? ");
             }
         return guess;
@@ -60,7 +55,7 @@ public class W5T5_GuessNumber {
         System.out.print(prompt);
         while (!console.hasNextInt()) {
             console.next(); // to discard the input
-            System.out.println("Not an integer; try again.");
+            System.out.println("Not an integer; try again with integer between 0 until 99.\n");
             System.out.print(prompt);
         }
         return console.nextInt();

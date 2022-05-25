@@ -28,8 +28,8 @@ public class W5T6_DiceRolling {
         int tryNum = 0;
         int desired = getGuess(console);
         while(desired != sum){
-            dice1 = rand.nextInt(7 - 1) + 1;
-            dice2 = rand.nextInt(7 - 1) + 1;
+            dice1 = rand.nextInt(6) + 1;
+            dice2 = rand.nextInt(6) + 1;
             sum = dice1 + dice2;
             System.out.println(dice1 + " and " + dice2 + " = " + sum);
             tryNum++;
