@@ -1,0 +1,10 @@
+Well, this is a simple text file.
+This is the 2nd line.
+Let us have space after this line:
+
+Ummm, some numbers: 1, 2, 3, 4, ..
+Some stars: *****
+Some dashes: ----
+I guess this is line number 8.
+Line number 9.
+Bye !
