@@ -8,8 +8,16 @@ public class MyIoTProject {
 
     public static MenuType currentMenu = MenuType.MAIN;
 
-    public static void main(String[] args){
-            LCD lcd1 = new LCD(80, 25);
+    public static void main(String[] args) {
+        LCD lcd1 = new LCD(80, 25);
+//        LCD lcd2 = new LCD(90, 25);
+//        LCD lcd3 = new LCD(40, 25);
+//        LCD lcd4 = new LCD(100, 10);
+//
+//        System.out.println(lcd1.compareTo(lcd2));
+//        System.out.println(lcd2.compareTo(lcd3));
+//        System.out.println(lcd3.compareTo(lcd4));
+//    }
             lcd1.hideCursor();
             lcd1.clearScreen();
             showMainMenu(lcd1);
@@ -107,7 +115,7 @@ public class MyIoTProject {
                         break;
                 }
             }
-        }
+    }
 
     public static messageBox createFunctionMenu () {
             messageBox msgBox = new messageBox("- Stamford Function Menu - ");
