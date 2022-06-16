@@ -11,6 +11,9 @@ public class LCD implements Comparable<LCD> {
     int funcCount;
     String prompt;
     String mode;
+    String antiTheftMode;
+    String camIPMode;
+    int tempAC;
     boolean reverseBackground;
 
     final static char escCode = 0x1B;
@@ -47,6 +50,9 @@ public class LCD implements Comparable<LCD> {
         this.funcCount = 0;
         this.prompt = "Select a function";
         this.mode = "E"; // N = Normal, E = Extended
+        this.tempAC = 25;
+        this.camIPMode = "On";
+        this.antiTheftMode = "On";
         reverseBackground = false;
     }
 
@@ -57,6 +63,9 @@ public class LCD implements Comparable<LCD> {
         this.funcCount = 0;
         this.prompt = "Select a function";
         this.mode = "E"; // N = Normal, E = Extended
+        this.tempAC = 25;
+        this.camIPMode = "On";
+        this.antiTheftMode = "On";
         reverseBackground = false;
     }
 
@@ -73,6 +82,16 @@ public class LCD implements Comparable<LCD> {
     public void setMode(String mode) {
         this.mode = mode;
     }
+    public void setACTemp(int tempAC) {
+        this.tempAC = tempAC;
+    }
+    public void setCamIPMode(String camMode) {
+        this.camIPMode = camMode;
+    }
+    public void setAntiTheftMode(String antiTheftMode) {
+        this.antiTheftMode = antiTheftMode;
+    }
+
     public void setFuncCount(int funcCount) {
         this.funcCount = funcCount;
     }
@@ -96,6 +115,15 @@ public class LCD implements Comparable<LCD> {
     public String getMode() {
         return this.mode;
     }
+    public int getACTemp() {
+        return this.tempAC;
+    }
+    public String getCamIPMode() {
+        return this.camIPMode;
+    }
+    public String getAntiTheftMode() {
+        return this.antiTheftMode;
+    }
     public boolean getBackgroundMode () {
         return this.reverseBackground;
     }
@@ -117,7 +145,7 @@ public class LCD implements Comparable<LCD> {
         GotoXY(2, 0);
         printBoxLine(mBox.getHeader(), mBoxLine.verticalAlignment.CENTER);
         GotoXY(3, 0);
-        printBoxLine(" ", mBoxLine.verticalAlignment.LEFT);
+        printBoxLine(mBox.getSubHeader(), mBoxLine.verticalAlignment.CENTER);
 
         GotoXY(4, 0);
         System.out.print(midLeft);
@@ -224,8 +252,8 @@ public class LCD implements Comparable<LCD> {
             normalColor();
         }
         GotoXY(1,1);
-        for (int i = 1; i <= height; i++) {
-            for (int j = 1; j <= width; j++) {
+        for (int i = 2; i <= height; i++) {
+            for (int j = 2; j <= width; j++) {
                 System.out.print(" ");
             }
             System.out.println(" ");
@@ -237,6 +265,16 @@ public class LCD implements Comparable<LCD> {
         GotoXY(23, 0);
         System.out.print(bar + " ");
         System.out.print(prompt + "(1-" + funcCount + ") Invalid input. Please try again. >");
+        GotoXY(23, 78);
+        System.out.print(mode + " " + bar);
+        int prompt_size = prompt.length() + 11 + 33;
+        GotoXY(23, prompt_size);
+    }
+
+    public void printInvalidACInput() {
+        GotoXY(23, 0);
+        System.out.print(bar + " ");
+        System.out.print(prompt + "(1-" + funcCount + ") Only 15°C - 30°C. >");
         GotoXY(23, 78);
         System.out.print(mode + " " + bar);
         int prompt_size = prompt.length() + 11 + 33;
@@ -270,7 +308,7 @@ public class LCD implements Comparable<LCD> {
     // faking a restart that takes 5 seconds
         for (int i =0; i < 6; i++) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }
             catch(InterruptedException ex)
             {
@@ -278,6 +316,18 @@ public class LCD implements Comparable<LCD> {
             }
             System.out.print("#");
         }
+
+//        char[] animationChars = new char[]{'|', '/', '-', '\\'};
+//
+//        for (int i = 0; i <= 50; i++) {
+//            System.out.print("[ " + animationChars[i % 4] + " ]" + "\r");
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         System.out.print(" Done! Press any integer to back to main menu.");
     }
 

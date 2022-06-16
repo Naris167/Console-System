@@ -10,17 +10,20 @@ import java.util.ArrayList;
 // addLine() method.
 public class messageBox {
     String header;
+    String subHeader;
     ArrayList <mBoxLine> content;
 
     // default constructor
     public messageBox () {
         header = "No header";
-        content = new ArrayList <> ();
+        subHeader = "No sub header";
+        //content = new ArrayList <> ();
     }
 
     // constructor
-    public messageBox (String header) {
+    public messageBox (String header, String subHeader) {
         this.header = header;
+        this.subHeader = subHeader;
         content = new ArrayList <> (); //Empty Line!!
     }
     public void setHeader(String text) {
@@ -28,6 +31,12 @@ public class messageBox {
     }
     public String getHeader() {
         return header;
+    }
+    public void setSubHeader(String text) {
+        subHeader = text;
+    }
+    public String getSubHeader() {
+        return subHeader;
     }
 
     //Normal instant method
