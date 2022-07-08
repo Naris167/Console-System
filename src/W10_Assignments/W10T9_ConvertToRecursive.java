@@ -1,28 +1,35 @@
 package W10_Assignments;
 
 public class W10T9_ConvertToRecursive {
-    // Returns n!, such as 5! = 1*2*3*4*5
+    // Prints each character of the string reversed twice.
+    // doubleReverse("hello") prints "oolllleehh"
     public static void main(String[] args) {
-        int num = 5;
-        System.out.printf("\nFactorial of %d is %d", num, IterativeFactorial(num));
-        System.out.printf("\nFactorial of %d is %d", num, RecursiveFactorial(num));
+        String text = "hello";
+        System.out.println("Iterative:");
+        System.out.print(text + " to ");
+        IterativeDoubleReverse(text);
+
+        System.out.println("\n\nRecursive:");
+        System.out.print(text + " to ");
+        RecursiveDoubleReverse(text, text.length());
+
     }
 
     // Iterative
-    public static int IterativeFactorial(int n) {
-        int product = 1;
-        for (int i = 1; i <= n; i++) {
-            product *= i;
+    public static void IterativeDoubleReverse(String s) {
+        for (int i = s.length() - 1; i >= 0; i--) {
+            System.out.print(s.charAt(i));
+            System.out.print(s.charAt(i));
         }
-        return product;
     }
 
     // Recursive
-    public static int RecursiveFactorial(int n) {
-        int product = 1;
-        if (n >= 1)
-            return n * RecursiveFactorial(n - 1);
-        else
-            return 1;
+    public static void RecursiveDoubleReverse(String str, int i) {
+        if(i > 0){
+            System.out.print(str.charAt(i-1));
+            System.out.print(str.charAt(i-1));
+            i--;
+            RecursiveDoubleReverse(str,i);
+        }
     }
 }

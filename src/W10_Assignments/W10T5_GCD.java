@@ -1,6 +1,6 @@
 package W10_Assignments;
 
-public class W10T4_GCD {
+public class W10T5_GCD {
     public static void main(String[] args) {
         int num1 = 132;
         int num2 = 20;

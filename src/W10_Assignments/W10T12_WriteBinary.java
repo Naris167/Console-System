@@ -1,6 +1,6 @@
 package W10_Assignments;
 
-public class W10T11_WriteBinary {
+public class W10T12_WriteBinary {
     public static void main(String[] args) {
         System.out.print("\nThe result of writeBinary(44) is ");
         writeBinary(44);

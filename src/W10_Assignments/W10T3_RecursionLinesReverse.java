@@ -11,7 +11,7 @@ public class W10T3_RecursionLinesReverse {
         System.out.print("file #1 name? "); // W10_File.txt
         Scanner input = new Scanner(new File(console.nextLine()));
         reverse(input);
-        System.out.println("DOne");
+        System.out.println("Done");
     }
 
     public static void reverse(Scanner input) {

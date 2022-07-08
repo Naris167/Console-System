@@ -1,6 +1,6 @@
 package W10_Assignments;
 
-public class W10T7_BackTracking {
+public class W10T8_BackTracking {
     public static void main(String[] args) {
         travel(1, 2);
     }

@@ -3,7 +3,7 @@ package W10_Assignments;
 import java.awt.*;
 import java.awt.Color;
 
-public class W10T6_SierpinskiTriangle {
+public class W10T7_SierpinskiTriangle {
     public static final int SIZE = 512;
 
     public static void main(String[] args) {

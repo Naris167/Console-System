@@ -1,6 +1,6 @@
 package W10_Assignments;
 
-public class W10T10_StarString2n {
+public class W10T11_StarString2n {
     public static void main(String[] args) {
         System.out.println("starString(0): " + starString(0));
         System.out.println("starString(1): " + starString(1));

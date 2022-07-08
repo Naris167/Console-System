@@ -2,7 +2,7 @@ package W10_Assignments;
 
 import java.io.File;
 import java.util.*;
-public class W10T5_Directory {
+public class W10T6_Directory {
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);
         System.out.print("directory or file name?");

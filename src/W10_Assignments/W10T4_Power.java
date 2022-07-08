@@ -1,6 +1,6 @@
 package W10_Assignments;
 
-public class W10T3_Power {
+public class W10T4_Power {
     public static void main(String[] args) {
         int power = 2;
         int base = 2;
